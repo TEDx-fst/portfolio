@@ -5,6 +5,7 @@
         <group>
             <file>file:/home/hamzawy/web/portfolio/resources/views/team/create.blade.php</file>
             <file>file:/home/hamzawy/web/portfolio/app/Http/Controllers/TeamController.php</file>
+            <file>file:/home/hamzawy/web/portfolio/app/Mail/userEmail.php</file>
         </group>
     </open-files>
 </project-private>

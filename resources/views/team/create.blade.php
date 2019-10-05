@@ -3,73 +3,133 @@
 @section('content')
 
 <div class="box box-danger">
-            <div class="box-header with-border">
-              <h3 class="box-title">Add Member</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" action="{{route('team.store')}}" method="post">
-                
-              @csrf  
-              <div class="box-body">
-                  
-                <div class="form-group has-feedback {{ $errors->has('first_name') ? 'has-error' : '' }}">
-                    <input type="text" name="first_name" class="form-control" value="{{ old('first_name') }}"
-                           placeholder="{{ trans('adminlte::adminlte.first_name') }}">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    @if ($errors->has('first_name'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('first_name') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="form-group has-feedback {{ $errors->has('last_name') ? 'has-error' : '' }}">
-                    <input type="text" name="last_name" class="form-control" value="{{ old('last_name') }}"
-                           placeholder="{{ trans('adminlte::adminlte.last_name') }}">
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    @if ($errors->has('name'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('last_name') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-                    <input type="email" name="email" class="form-control" value="{{ old('email') }}"
-                           placeholder="{{ trans('adminlte::adminlte.email') }}">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <input type="password" name="password" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.password') }}">
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    @if ($errors->has('password'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-                </div>
-                <div class="form-group has-feedback {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
-                    <input type="password" name="password_confirmation" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.retype_password') }}">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-                    @if ($errors->has('password_confirmation'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                        </span>
-                    @endif
-                </div>
+    <div class="box-header with-border">
+        <h3 class="box-title">Add Member</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" action="{{route('team.store')}}" method="post" enctype="multipart/form-data">
 
-              <div class="box-footer">
+        @csrf  
+        <div class="box-body">
+
+            <div class="form-group has-feedback {{ $errors->has('first_name') ? 'has-error' : '' }}">
+                <input type="text" name="first_name" class="form-control" value="{{ old('first_name') }}"
+                       placeholder="{{ trans('adminlte::adminlte.first_name') }}">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                @if ($errors->has('first_name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('first_name') }}</strong>
+                </span>
+                @endif
+            </div>
+            <div class="form-group has-feedback {{ $errors->has('last_name') ? 'has-error' : '' }}">
+                <input type="text" name="last_name" class="form-control" value="{{ old('last_name') }}"
+                       placeholder="{{ trans('adminlte::adminlte.last_name') }}">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                @if ($errors->has('name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('last_name') }}</strong>
+                </span>
+                @endif
+            </div>
+            <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
+                <input type="email" name="email" class="form-control" value="{{ old('email') }}"
+                       placeholder="{{ trans('adminlte::adminlte.email') }}">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                @if ($errors->has('email'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" class="form-control" name="role">
+                    @foreach($Roles as $Role)
+                    <option value="{{$Role->id}}">{{$Role->slug}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="userImage">Image</label>
+                <input type="file" id="userImage" name="image">
+                <div style="width:20%">
+                    <img id="image">
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                <div class="row">
+                    @foreach($SocialMediaData as $SocialMedia)
+                    <div class="col-md-3">
+                        <label for="{{$SocialMedia->social_media}}">{{$SocialMedia->social_media}}</label>
+                        <input name="social[]" data-social-type="{{$SocialMedia->social_media}}" class="social" id="{{$SocialMedia->social_media}}" type="checkbox" value="{{$SocialMedia->id}}">
+                        <input type="hidden" name="socialUrl[]" class="form-control {{$SocialMedia->social_media}}">
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+
+            <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
                     {{ trans('adminlte::adminlte.register') }}
                 </button>
-              </div>
-            </form>
-          </div>
+            </div>
+    </form>
+</div>
 
+@stop
+
+@section('js')
+<script>
+
+    $(function () {
+
+        var SocialBox = $('.social');
+        /*-------------------------------------------------------*/
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $("#userImage").change(function () {
+            readURL(this);
+        });
+        /*-------------------------------------------------------*/
+
+        function AppendSocialUrl()
+        {
+            var _this = $(this),
+                    SocialInputClass = _this.data('social-type'),
+                    SocialUrlObject = $('.' + SocialInputClass);
+
+            if (_this.is(':checked')) {
+                SocialUrlObject.attr('type', 'text');
+            } else {
+                SocialUrlObject.attr('type', 'hidden');
+                SocialUrlObject.attr('value', '');
+            }
+
+
+        }
+
+        SocialBox.on('change', AppendSocialUrl);
+        /*-------------------------------------------------------*/
+
+    });
+
+</script>
 @stop

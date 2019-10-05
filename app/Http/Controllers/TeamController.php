@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\User;
+use App\socialmedia;
+use Intervention\Image\Facades\Image;
+use Sentinel;
 
-class TeamController extends Controller
-{
+class TeamController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $Users = User::all(); 
-        
-        return view('team.all', ['Users'=>$Users]);
+    public function index() {
+        $Users = User::all();
+
+        return view('team.all', ['Users' => $Users]);
     }
 
     /**
@@ -25,9 +26,10 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('team.create');
+    public function create() {
+        $SocialMedia = socialmedia::all();
+        $roles = Sentinel::getRoleRepository()->all();
+        return view('team.create', ['SocialMediaData' => $SocialMedia, 'Roles' => $roles]);
     }
 
     /**
@@ -36,9 +38,24 @@ class TeamController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        $data = request()->validate([
+            'email' => 'required|unique:users,email|email',
+            'first_name' => 'required|min:3|max:18|alpha',
+            'last_name' => 'required|min:3|max:18|alpha',
+            'image' => ['required', 'image']
+        ]);
+
+        $data['password'] = str_random(8);
+        $data['image'] = request('image')->store('uploads/team', 'public');
+
+        $image = Image::make(public_path("storage/{$data['image']}"))->fit(1200, 1200);
+
         dd(request());
+
+
+//        $image->save();
+//        $user = Sentinel::registerAndActivate($data);
     }
 
     /**
@@ -47,8 +64,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -58,8 +74,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -70,8 +85,7 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
@@ -81,8 +95,8 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
+
 }

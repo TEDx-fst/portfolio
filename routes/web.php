@@ -25,6 +25,20 @@ Route::group([
 
 Route::resource('team', 'TeamController');
 
+use App\Mail\userEmail;
+
+Route::get('/email', function() {
+    Sentinel::getRoleRepository()->create([
+        'name' => 'Admins',
+        'slug' => 'admin',
+    ]);
+
+
+//    return new userEmail();
+});
+
+
+
 Route::get('/admin/dashboard', function() {
     return view('admin.dashboard');
 })->name('admin.dashboard')->middleware('admin');
