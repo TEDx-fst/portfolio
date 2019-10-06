@@ -9,6 +9,7 @@ use App\social_users;
 use Intervention\Image\Facades\Image;
 use Sentinel;
 use App\Mail\userEmail;
+use Illuminate\Support\Facades\Mail;
 
 class TeamController extends Controller {
 
@@ -65,10 +66,8 @@ class TeamController extends Controller {
             (new social_users())->create(['user_id' => $user->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
         }
 
-        new userEmail($user);
-        
+        Mail::to($data['email'])->send(new userEmail($data));
         return redirect()->route('team.index');
-        
     }
 
     /**

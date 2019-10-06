@@ -17,8 +17,8 @@ class userEmail extends Mailable {
      *
      * @return void
      */
-    public function __construct($UserArray) {
-        $this->UserArray = $UserArray;
+    public function __construct($User) {
+        $this->User = $User;
     }
 
     /**
@@ -27,9 +27,10 @@ class userEmail extends Mailable {
      * @return $this
      */
     public function build() {
+        $EmailArray = ['user' => $this->User['email'], 'password' => $this->User['password']];
         return $this->from('tedxfstteam@tedxfst.com')
                         ->markdown('email.newuser')
-                        ->with($this->UserArray);
+                        ->with($EmailArray);
     }
 
 }
