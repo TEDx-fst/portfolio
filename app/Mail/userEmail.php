@@ -7,18 +7,18 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class userEmail extends Mailable
-{
-    use Queueable, SerializesModels;
+class userEmail extends Mailable {
+
+    use Queueable,
+        SerializesModels;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
+    public function __construct($UserArray) {
+        $this->UserArray = $UserArray;
     }
 
     /**
@@ -26,10 +26,10 @@ class userEmail extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->from('tedxfstteam@tedxfst.com')
-                ->markdown('email.newuser')
-                ->with(['user'=>'oop','password'=>'ood']);
+                        ->markdown('email.newuser')
+                        ->with($this->UserArray);
     }
+
 }

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\socialmedia;
+use App\social_users;
 use Intervention\Image\Facades\Image;
 use Sentinel;
+use App\Mail\userEmail;
 
 class TeamController extends Controller {
 
@@ -50,12 +52,23 @@ class TeamController extends Controller {
         $data['image'] = request('image')->store('uploads/team', 'public');
 
         $image = Image::make(public_path("storage/{$data['image']}"))->fit(1200, 1200);
+        $user = Sentinel::registerAndActivate($data);
+        $image->save();
 
-        dd(request());
+        $role = Sentinel::findRoleById(request('role'));
+        $role->users()->attach($user);
 
+        for ($counter = 0; count(request('social')) > $counter; $counter++) {
+            $SocialMediaId = request('social')[$counter];
+            $SocialMediaUrl = request('SocilUrl')[$counter];
 
-//        $image->save();
-//        $user = Sentinel::registerAndActivate($data);
+            (new social_users())->create(['user_id' => $user->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
+        }
+
+        new userEmail($user);
+        
+        return redirect()->route('team.index');
+        
     }
 
     /**

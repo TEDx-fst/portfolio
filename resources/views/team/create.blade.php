@@ -27,7 +27,7 @@
                 <input type="text" name="last_name" class="form-control" value="{{ old('last_name') }}"
                        placeholder="{{ trans('adminlte::adminlte.last_name') }}">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                @if ($errors->has('name'))
+                @if ($errors->has('last_name'))
                 <span class="help-block">
                     <strong>{{ $errors->first('last_name') }}</strong>
                 </span>
@@ -67,7 +67,7 @@
                     <div class="col-md-3">
                         <label for="{{$SocialMedia->social_media}}">{{$SocialMedia->social_media}}</label>
                         <input name="social[]" data-social-type="{{$SocialMedia->social_media}}" class="social" id="{{$SocialMedia->social_media}}" type="checkbox" value="{{$SocialMedia->id}}">
-                        <input type="hidden" name="socialUrl[]" class="form-control {{$SocialMedia->social_media}}">
+                        <div class="{{$SocialMedia->social_media}}"></div>
                     </div>
                     @endforeach
                 </div>
@@ -117,10 +117,10 @@
                     SocialUrlObject = $('.' + SocialInputClass);
 
             if (_this.is(':checked')) {
-                SocialUrlObject.attr('type', 'text');
+
+                SocialUrlObject.html('<input name="SocilUrl[]" type="text"' + ' class="form-control ' + SocialInputClass + '">');
             } else {
-                SocialUrlObject.attr('type', 'hidden');
-                SocialUrlObject.attr('value', '');
+                SocialUrlObject[1].remove();
             }
 
 
