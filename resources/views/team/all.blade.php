@@ -19,7 +19,7 @@
 
                 @foreach($Users as $User)
                 <tr>
-                    <td>{{$User->first_name}} {{$User->last_name}}</td>
+                    <td><a href="/team/{{$User->id}}/edit">{{$User->first_name}} {{$User->last_name}}</a></td>
                     <td></td>
                 </tr>
 

@@ -55,7 +55,6 @@ class TeamController extends Controller {
         $image = Image::make(public_path("storage/{$data['image']}"))->fit(1200, 1200);
         $user = Sentinel::registerAndActivate($data);
         $image->save();
-
         $role = Sentinel::findRoleById(request('role'));
         $role->users()->attach($user);
 

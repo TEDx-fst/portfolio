@@ -58,7 +58,7 @@
                 <input type="file" id="userImage" name="image">
 
                 <div style="width:20%">
-                    <img id="image" src="{{ $user->image }}">
+                    <img id="image" src="/storage/{{ $user->image }}">
                 </div>
             </div>
 
