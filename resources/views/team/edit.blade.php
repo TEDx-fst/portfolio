@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label for="userImage">Image</label>
                 <input type="file" id="userImage" name="image">
-                
+
                 <div style="width:20%">
                     <img id="image" src="{{ $user->image }}">
                 </div>
@@ -65,13 +65,12 @@
             <div class="form-group has-feedback">
                 <div class="row">
                     @foreach($SocialMediaData as $SocialMedia)
-
-                    @foreach($UserSocial as $UserSocialMedia)
-
                     @php
                     $selected = '';
                     $TextBox = '';
                     @endphp
+
+                    @foreach($UserSocial as $UserSocialMedia)
 
                     @if($UserSocialMedia->social_id == $SocialMedia->id)
                     @php
