@@ -87,7 +87,13 @@ class TeamController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        $user = User::find($id);
+        $SocialMedia = socialmedia::all();
+        $roles = Sentinel::getRoleRepository()->all();
+        $UserSocialMedia = $user->social;
+        $ViewArray = ['user' => $user, 'SocialMediaData' => $SocialMedia, 'Roles' => $roles, 'UserSocial' => $UserSocialMedia];
+//        dd($SocialMedia);
+        return view('team.edit', $ViewArray);
     }
 
     /**

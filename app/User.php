@@ -38,7 +38,7 @@ class User extends Authenticatable {
     ];
 
     public function social() {
-        $this->hasMany(socialmedia::class);
+      return  $this->hasMany(social_users::class);
     }
 
 }
