@@ -8,9 +8,10 @@
     </div>
     <!-- /.box-header -->
     <!-- form start -->
-    <form role="form" action="{{route('team.store')}}" method="post" enctype="multipart/form-data">
+    <form role="form" action="{{route('team.update',$user->id)}}" method="post" enctype="multipart/form-data">
 
-        @csrf  
+        @csrf
+        @method('PUT')
         <div class="box-body">
 
             <div class="form-group has-feedback {{ $errors->has('first_name') ? 'has-error' : '' }}">
@@ -57,8 +58,8 @@
                 <label for="userImage">Image</label>
                 <input type="file" id="userImage" name="image">
 
-                <div style="width:20%">
-                    <img id="image" src="/storage/{{ $user->image }}">
+                <div>
+                    <img id="image" style="width: 50%;" src="/storage/{{ $user->image }}">
                 </div>
             </div>
 
@@ -94,7 +95,7 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
-                    {{ trans('adminlte::adminlte.register') }}
+                    Save
                 </button>
             </div>
     </form>

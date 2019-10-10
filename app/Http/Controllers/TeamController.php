@@ -10,6 +10,7 @@ use Intervention\Image\Facades\Image;
 use Sentinel;
 use App\Mail\userEmail;
 use Illuminate\Support\Facades\Mail;
+use File;
 
 class TeamController extends Controller {
 
@@ -91,7 +92,6 @@ class TeamController extends Controller {
         $roles = Sentinel::getRoleRepository()->all();
         $UserSocialMedia = $user->social;
         $ViewArray = ['user' => $user, 'SocialMediaData' => $SocialMedia, 'Roles' => $roles, 'UserSocial' => $UserSocialMedia];
-//        dd($SocialMedia);
         return view('team.edit', $ViewArray);
     }
 
@@ -103,7 +103,49 @@ class TeamController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+
+        $user = Sentinel::findById($id);
+
+        $data = request()->validate([
+            'email' => 'required|email',
+            'first_name' => 'required|min:3|max:18|alpha',
+            'last_name' => 'required|min:3|max:18|alpha',
+            'image' => 'image'
+        ]);
+
+        if (!empty(request('image'))) {
+
+            File::delete(public_path("/storage/" . $user->image));
+            $data['image'] = request('image')->store('uploads/team', 'public');
+            $image = Image::make(public_path("storage/{$data['image']}"))->fit(1200, 1200);
+            $image->save();
+        }
+
+        $data['password'] = $user->password;
+
+        $role = Sentinel::findRoleById(request('role'));
+
+        $role->users()->detach($user);
+
+        $user = Sentinel::update($user, $data);
+
+        $role->users()->attach($user);
+
+        social_users::where('user_id', $user->id)->delete();
+
+        if (!empty(request('social'))) {
+            $SocialCount = count(request('social'));
+
+            for ($counter = 0; $SocialCount > $counter; $counter++) {
+                $SocialMediaId = request('social')[$counter];
+                $SocialMediaUrl = request('SocilUrl')[$counter];
+
+                (new social_users())->create(['user_id' => $user->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
+            }
+        }
+
+
+        return redirect()->route('team.index');
     }
 
     /**
