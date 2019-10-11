@@ -59,7 +59,9 @@ class TeamController extends Controller {
         $role = Sentinel::findRoleById(request('role'));
         $role->users()->attach($user);
 
-        for ($counter = 0; count(request('social')) > $counter; $counter++) {
+        $SocialUser = count(request('social'));
+
+        for ($counter = 0; $SocialUser > $counter; $counter++) {
             $SocialMediaId = request('social')[$counter];
             $SocialMediaUrl = request('SocilUrl')[$counter];
 

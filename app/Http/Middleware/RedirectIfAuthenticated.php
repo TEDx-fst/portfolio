@@ -16,12 +16,11 @@ class RedirectIfAuthenticated {
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null) {
-        if (Sentinel::check() && Sentinel::hasAnyAccess(['admin.*', 'moderator.*'])) {
-            return redirect()->route('admin.dashboard')->with('info', 'you are already logged in');
-        } elseif (Sentinel::check() && Sentinel::hasAccess('user.*')) {
-            return redirect()->route('user.dashboard')->with('info', 'you are already logged in');
+        if (Sentinel::check() && Sentinel::hasAnyAccess(['admin.*'])) {
+            return redirect()->home();
+        } else if (!Sentinel::check()) {
+            return redirect()->route('login');
         }
-
         return $next($request);
     }
 

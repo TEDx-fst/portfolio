@@ -29,7 +29,6 @@ class LoginController extends Controller {
 
     function logout() {
         Sentinel::logout();
-
         return redirect()->route('login');
     }
 
