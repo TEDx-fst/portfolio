@@ -21,14 +21,17 @@ Route::group([
 });
 
 Route::group(['middleware' => 'guest'], function() {
-    Route::resource('team', 'TeamController');
-    
-    Route::resource('speakers', 'SpeakersController');
 
     Route::get('/home', [
         'uses' => 'HomeController@index',
         'as' => 'home'
     ]);
+
+    Route::resource('team', 'TeamController');
+
+    Route::resource('speakers', 'SpeakersController');
+
+    Route::resource('partners', 'PartnersController');
 });
 
 Route::get('/', function () {

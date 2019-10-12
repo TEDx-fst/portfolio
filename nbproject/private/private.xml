@@ -3,10 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/hamzawy/web/portfolio/app/speakers.php</file>
-            <file>file:/home/hamzawy/web/portfolio/resources/views/speakers/edit.blade.php</file>
             <file>file:/home/hamzawy/web/portfolio/app/Http/Controllers/SpeakersController.php</file>
-            <file>file:/home/hamzawy/web/portfolio/app/social_speaker.php</file>
         </group>
     </open-files>
 </project-private>
