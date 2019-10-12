@@ -32,6 +32,8 @@ Route::group(['middleware' => 'guest'], function() {
     Route::resource('speakers', 'SpeakersController');
 
     Route::resource('partners', 'PartnersController');
+
+    Route::resource('talks', 'TalksController');
 });
 
 Route::get('/', function () {
