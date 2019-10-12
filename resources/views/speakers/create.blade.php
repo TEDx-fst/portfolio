@@ -59,7 +59,7 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
-                    {{ trans('adminlte::adminlte.register') }}
+                save
                 </button>
             </div>
     </form>

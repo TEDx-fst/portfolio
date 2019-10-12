@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\speakers as SpeakersModel;
 use Illuminate\Http\Request;
-use App\speakers_social;
+use App\social_speaker;
 use File;
 use App\socialmedia;
 use Intervention\Image\Facades\Image;
@@ -60,7 +60,7 @@ class SpeakersController extends Controller {
             $SocialMediaId = request('social')[$counter];
             $SocialMediaUrl = request('SocilUrl')[$counter];
 
-            (new speakers_social())->create(['speaker_id' => $Speaker->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
+            (new social_speaker())->create(['speaker_id' => $Speaker->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
         }
 
         return redirect()->route('speakers.index');
@@ -86,10 +86,9 @@ class SpeakersController extends Controller {
 
         $Speaker = SpeakersModel::find($id);
         $SocialMedia = socialmedia::all();
-        
-        dd($Speaker->social);
-        
-        $SpeakerEditView = ['speaker' => $Speaker, 'SocialMediaData' => $SocialMedia];
+        $SpeakerSocail = social_speaker::where('speaker_id', $id)->get();
+
+        $SpeakerEditView = ['speaker' => $Speaker, 'SpeackerSocial' => $SpeakerSocail, 'SocialMediaData' => $SocialMedia];
         return view('speakers.edit', $SpeakerEditView);
     }
 
@@ -101,7 +100,39 @@ class SpeakersController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $speaker = SpeakersModel::find($id);
+
+        $data = request()->validate([
+            'name' => 'required|min:3|max:18',
+            'description' => 'required',
+            'image' => ['required', 'image']
+        ]);
+
+        if (!empty(request('image'))) {
+
+            File::delete(public_path("/storage/" . $speaker->image));
+            $data['image'] = request('image')->store('uploads/speakers', 'public');
+            $image = Image::make(public_path("storage/{$data['image']}"))->fit(1200, 1200);
+            $image->save();
+        }
+
+        $speakerUpdate = $speaker->update($data);
+
+        social_speaker::where('speaker_id', $speaker->id)->delete();
+
+        if (!empty(request('social'))) {
+            $SocialCount = count(request('social'));
+
+            for ($counter = 0; $SocialCount > $counter; $counter++) {
+                $SocialMediaId = request('social')[$counter];
+                $SocialMediaUrl = request('SocilUrl')[$counter];
+
+                (new social_speaker())->create(['speaker_id' => $speaker->id, 'social_id' => $SocialMediaId, 'url' => $SocialMediaUrl]);
+            }
+        }
+
+
+        return redirect()->route('speakers.index');
     }
 
     /**

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SpeakersSocial extends Migration {
+class CreateSocialSpeakersTable extends Migration {
 
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class SpeakersSocial extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('speakers_social', function (Blueprint $table) {
+        Schema::create('social_speakers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('speaker_id');
-            $table->integer('social_id');
+            $table->bigInteger('speaker_id');
+            $table->bigInteger('social_id');
             $table->string('url');
             $table->timestamps();
         });
@@ -27,7 +27,7 @@ class SpeakersSocial extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('speakers_social');
+        Schema::dropIfExists('social_speakers');
     }
 
 }

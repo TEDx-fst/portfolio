@@ -15,7 +15,7 @@
         <div class="box-body">
 
             <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
-                <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                <input type="text" name="name" class="form-control" value="{{ $speaker->name }}"
                        placeholder="Speacker Name">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 @if ($errors->has('name'))
@@ -29,13 +29,13 @@
                 <label for="userImage">Image</label>
                 <input type="file" id="userImage" name="image">
                 <div>
-                    <img id="image"  style="width: 50%;">
+                    <img id="image"  style="width: 50%;" src="/storage/{{$speaker->image}}">
                 </div>
             </div>
 
             <div class="form-group has-feedback {{ $errors->has('first_name') ? 'has-error' : '' }}">
                 <label for="description">Description</label>
-                <textarea class="form-control" name="description" id="description" rows="3">{{old('description')}}</textarea>
+                <textarea class="form-control" name="description" id="description" rows="3">{{$speaker->description}}</textarea>
                 @if ($errors->has('description'))
                 <span class="help-block">
                     <strong>{{ $errors->first('description') }}</strong>
@@ -52,12 +52,12 @@
                     $TextBox = '';
                     @endphp
 
-                    @foreach($UserSocial as $UserSocialMedia)
+                    @foreach($SpeackerSocial as $SpeackerSocialMedial)
 
-                    @if($UserSocialMedia->social_id == $SocialMedia->id)
+                    @if($SpeackerSocialMedial->social_id == $SocialMedia->id)
                     @php
                     $selected = ' checked';
-                    $TextBox ="<input name='SocilUrl[]' value='$UserSocialMedia->url' class='form-control $SocialMedia->social_media' type='text'>";
+                    $TextBox ="<input name='SocilUrl[]' value='$SpeackerSocialMedial->url' class='form-control $SocialMedia->social_media' type='text'>";
                     @endphp
                     @endif
                     @endforeach
@@ -71,7 +71,7 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
+            </div> 
 
 
             <div class="box-footer">

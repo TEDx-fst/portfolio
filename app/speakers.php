@@ -11,7 +11,7 @@ class speakers extends Model {
     ];
 
     function social() {
-        return $this->hasMany(speakers_social::class);
+        return $this->hasMany(social_speaker::class);
     }
 
 }
