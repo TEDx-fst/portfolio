@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/hamzawy/web/portfolio/app/speakers.php</file>
+            <file>file:/home/hamzawy/web/portfolio/database/factories/UserFactory.php</file>
             <file>file:/home/hamzawy/web/portfolio/resources/views/speakers/edit.blade.php</file>
+            <file>file:/home/hamzawy/web/portfolio/database/seeds/DatabaseSeeder.php</file>
             <file>file:/home/hamzawy/web/portfolio/app/Http/Controllers/SpeakersController.php</file>
             <file>file:/home/hamzawy/web/portfolio/app/User.php</file>
-            <file>file:/home/hamzawy/web/portfolio/app/Http/Controllers/TeamController.php</file>
-            <file>file:/home/hamzawy/web/portfolio/database/migrations/2019_10_11_091823_create_speakers_socials_table.php</file>
-            <file>file:/home/hamzawy/web/portfolio/app/speakers_social.php</file>
+            <file>file:/home/hamzawy/web/portfolio/database/seeds/AdminTableSeeder.php</file>
+            <file>file:/home/hamzawy/web/portfolio/config/app.php</file>
         </group>
     </open-files>
 </project-private>

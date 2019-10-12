@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
 
 class AdminTableSeeder extends Seeder {
 
@@ -10,20 +11,20 @@ class AdminTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
+
+        $CreatedUser = factory(User::class, 1)->create();
+
         $role = Sentinel::getRoleRepository()->createModel()->create([
             'name' => 'admin',
             'slug' => 'admin',
         ]);
 
-        $data = [
-            'first_name' => 'super',
-            'last_name' => 'admin',
-            'email' => 'super@admin.com',
-            'password' => 'password'
-        ];
-        $user = Sentinel::registerAndActivate();
         $role = Sentinel::findRoleBySlug('admin');
-        $role->users()->attach($user);
+        $role->users()->attach($CreatedUser);
+
+        $user = Sentinel::findById(1);
+        $activation = Activation::create($user);
+        Activation::complete($user, "$activation->code");
     }
 
 }

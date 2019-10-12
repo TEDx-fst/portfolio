@@ -18,11 +18,10 @@ class LoginController extends Controller {
             'password' => 'required|string'
         ]);
 
-        $user = Sentinel::Authenticate($data);
-        if($user){
-        return redirect()->home();
-            
-        }else{
+        $user = Sentinel::authenticate($data);
+        if ($user) {
+            return redirect()->home();
+        } else {
             return redirect()->back();
         }
     }
