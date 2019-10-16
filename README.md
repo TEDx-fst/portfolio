@@ -7,4 +7,6 @@ welcome to TEDxfst web site portfolio
 email : super@admin.com <br>
 password : password <br>
 
+5- move adminlte.php and replace in vendor/jeroennoten/laravel-adminlte/config <br>
+
 that's all for now :)
